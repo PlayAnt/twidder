@@ -2,14 +2,15 @@
 import json
 import database_helper
 from uuid import uuid4
-from flask import Flask, request
-from flask import jsonify
+from flask import Flask, request, jsonify
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
+from flask_bcrypt import Bcrypt
 
 socks = [{'email' : 'Trashmail', 'socket' : 0}]
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 
 @app.route('/boom', methods=['GET'])
 def booms():
@@ -58,9 +59,12 @@ def index():
 def sign_in(): #email, password
 
     credentials = request.get_json()
+    hash = bcrypt.check_password_hash(database_helper.getHash(credentials['email']), credentials['password'])
+    #print(hash)
 
-    if database_helper.confirmPassword(credentials['email'],credentials['password']) \
-     and database_helper.validateEmail(credentials['email']):
+    # if database_helper.confirmPassword(credentials['email'],hash)
+
+    if hash and database_helper.validateEmail(credentials['email']):
         i = 0
         for x in socks:
             if x['email'] == credentials['email']:
@@ -91,6 +95,8 @@ def sign_up(): #email, password, firstName, familyName, gender, city, country, m
         'gender' in user and \
         'city' in user and \
         'country' in user:
+            pw_hash = bcrypt.generate_password_hash(user['password'])
+            user['password'] = pw_hash
             database_helper.createUser(user);
             return jsonify({"success": "true", "message": "Successfully created a new user."})
 

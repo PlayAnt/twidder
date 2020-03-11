@@ -7,6 +7,15 @@ import json
 #Clean out unneccesarry commits
 #What else?
 
+def getHash(email):
+    conn = sqlite3.connect('database.db')
+    hash = ''
+    for row in conn.execute("SELECT password FROM user WHERE email = ?",(email, )):
+        hash = row[0]
+    conn.close()
+
+    return hash
+
 def createUser(user):
     conn = sqlite3.connect('database.db')
 
