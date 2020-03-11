@@ -7,6 +7,11 @@ from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 from flask_bcrypt import Bcrypt
 
+
+#req( hash(payload + token), email, payload) ->
+#gunicorn==20.0.4
+
+
 socks = [{'email' : 'Trashmail', 'socket' : 0}]
 
 app = Flask(__name__)
