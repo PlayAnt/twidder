@@ -1,3 +1,1 @@
-web: gunicorn server:app
-
-Funkar!
+web: python server:app
