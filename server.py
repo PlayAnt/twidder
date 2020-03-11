@@ -7,8 +7,6 @@ from flask import jsonify
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 
-#Fixa header i authorization + URl på get
-
 socks = [{'email' : 'Trashmail', 'socket' : 0}]
 
 app = Flask(__name__)
@@ -16,7 +14,6 @@ app = Flask(__name__)
 @app.route('/boom', methods=['GET'])
 def booms():
     print(socks)
-    print(socks[0])
     return "0"
 
 @app.route('/socket', methods=['GET'])
@@ -126,7 +123,6 @@ def change_password(): #token, oldPassword, newPassword
     req = request.get_json()
     token = request.headers.get('Authorization')[7:]
     if database_helper.validateToken(token):
-        print(req)
         if database_helper.validatePassword(token, req['oldPassword']):
             database_helper.replacePassword(token, req['newPassword'])
             return jsonify({"success": "true", "message": "Password changed."})
@@ -138,7 +134,7 @@ def change_password(): #token, oldPassword, newPassword
 
 @app.route('/getUserDataByToken', methods=['GET'])
 def get_user_data_by_token(): #token
-    token = request.headers.get('Authorization')[7:]    # print("Printing status " + str(status))
+    token = request.headers.get('Authorization')[7:]
     data = database_helper.selectUser(token)
 
     if data != -1:
@@ -150,7 +146,6 @@ def get_user_data_by_token(): #token
 def get_user_data_by_email(email): #token, email
     token = request.headers['authorization'][7:]
     data = database_helper.selectUserByEmail(token, email)
-    print(data)
 
     if data != 0 and data != -1:
         return jsonify({"success": "true", "message": "User data retrieved.", "data": data})
@@ -224,7 +219,6 @@ def get_user_messages_by_email(email): #token, email
 
 if __name__ == '__main__':
     http_server = WSGIServer(('127.0.0.1', 5000), app, handler_class = WebSocketHandler)
-    print(http_server)
     http_server.serve_forever()
 # #    app.debug = True
 #     app.run()

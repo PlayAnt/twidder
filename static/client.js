@@ -34,18 +34,6 @@ window.onload = function(){
   }
 };
 
-// send(url, callback)
-// {
-//   xmlhttp.onreadystatechange = function() {
-//
-//     console.log(this)
-//     if(this.readyState == 4 && this.status == 200){
-//       callback(this)
-//     }
-//   }
-//}
-
-
 function SignInValidation(){
 
   email = document.getElementById("signInEmail").value,
@@ -66,15 +54,10 @@ function SignInValidation(){
         var exampleSocket = new WebSocket("ws://127.0.0.1:5000/socket");
         //var exampleSocket = new WebSocket("ws://twidder789.herokuapp.com/socket");
 
-
         exampleSocket.onopen = function (event) {
           console.log("Opened Socket!");
           exampleSocket.send(returned.token);
         };
-
-          exampleSocket.onmessage = function (msg) {
-            console.log("hejhej")
-          };
 
         exampleSocket.onmessage = function (event) {
           console.log("Message Received!", event.data);
@@ -325,10 +308,12 @@ function SignUpValidation(){
 
   }
   function loadBrowseMessage(){
-    email = document.getElementById('bInfoEmail').innerHTML;
+    email = document.getElementById('browseSearch').value;
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", '/getUserMessagesByEmail/' + email);
     xmlhttp.setRequestHeader("Authorization", 'Bearer ' + sessionStorage.getItem('token'));
+
 
     xmlhttp.onreadystatechange = function() {
       if(this.readyState == 4 && this.status == 200){
