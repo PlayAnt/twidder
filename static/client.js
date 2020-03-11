@@ -63,7 +63,9 @@ function SignInValidation(){
         return 0;
       }
       if(returned.success == "true"){
-        var exampleSocket = new WebSocket("ws://127.0.0.1:5000/socket");
+        //var exampleSocket = new WebSocket("ws://127.0.0.1:5000/socket");
+        var exampleSocket = new WebSocket("ws://twidder789.herokuapp.com/socket");
+
 
         exampleSocket.onopen = function (event) {
           console.log("Opened Socket!");
