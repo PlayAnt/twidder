@@ -10,6 +10,7 @@ from flask_bcrypt import Bcrypt
 
 #req( hash(payload + token), email, payload) ->
 #gunicorn==20.0.4
+#web: python server.py
 
 
 socks = [{'email' : 'Trashmail', 'socket' : 0}]
@@ -175,7 +176,7 @@ def post_message(): #token, message, email
     status = database_helper.insertMessage(token, req['message'], req['email'])
 
     if status == 1:
-        return jsonify({"success": "true", "message": "Message posted."})
+        return jsonify({"success": "true", "mgunicorn server:appessage": "Message posted."})
     elif status == 0:
         return jsonify({"success": "false", "message": "No such user."})
     else:

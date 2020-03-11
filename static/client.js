@@ -8,7 +8,7 @@ window.onload = function(){
 
   if(sessionStorage.getItem('token') != null){
     var exampleSocket = new WebSocket("ws://127.0.0.1:5000/socket");
-    //var exampleSocket = new WebSocket("ws://twidder789.herokuapp.com/socket");
+    //var exampleSocket = new WebSocket("wss://twidder789.herokuapp.com/socket");
     exampleSocket.onopen = function (event) {
       console.log("Opened Socket!");
       exampleSocket.send(sessionStorage.getItem('token'));
@@ -52,7 +52,7 @@ function SignInValidation(){
       }
       if(returned.success == "true"){
         var exampleSocket = new WebSocket("ws://127.0.0.1:5000/socket");
-        //var exampleSocket = new WebSocket("ws://twidder789.herokuapp.com/socket");
+        //var exampleSocket = new WebSocket("wss://twidder789.herokuapp.com/socket");
 
         exampleSocket.onopen = function (event) {
           console.log("Opened Socket!");
